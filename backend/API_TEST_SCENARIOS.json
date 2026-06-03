@@ -1,0 +1,427 @@
+{
+  "api_endpoint": "POST /api/user/register",
+  "base_url": "http://localhost:8080",
+  "test_scenarios": {
+    "1_success_valid_data": {
+      "description": "Valid user registration with all correct data",
+      "status_code": 201,
+      "body": {
+        "username": "john_doe",
+        "email": "john@example.com",
+        "phone": "9876543210",
+        "password": "SecurePass@123"
+      },
+      "expected_response": {
+        "status": 201,
+        "message": "User registered successfully"
+      }
+    },
+    "2_success_different_valid_data": {
+      "description": "Another valid registration scenario",
+      "status_code": 201,
+      "body": {
+        "username": "jane_smith",
+        "email": "jane.smith@gmail.com",
+        "phone": "+1-987-654-3210",
+        "password": "MyPassword#456"
+      }
+    },
+    "3_success_numeric_username": {
+      "description": "Valid registration with numeric username",
+      "status_code": 201,
+      "body": {
+        "username": "user12345",
+        "email": "user123@example.com",
+        "phone": "5555551234",
+        "password": "StrongPwd@789"
+      }
+    },
+    "4_error_missing_username": {
+      "description": "Missing username field - should fail validation",
+      "status_code": 400,
+      "body": {
+        "email": "test@example.com",
+        "phone": "9999999999",
+        "password": "ValidPass@123"
+      },
+      "expected_error": "Username is mandatory"
+    },
+    "5_error_missing_email": {
+      "description": "Missing email field - should fail validation",
+      "status_code": 400,
+      "body": {
+        "username": "testuser",
+        "phone": "9999999999",
+        "password": "ValidPass@123"
+      },
+      "expected_error": "Email is mandatory"
+    },
+    "6_error_missing_phone": {
+      "description": "Missing phone field - should fail validation",
+      "status_code": 400,
+      "body": {
+        "username": "testuser",
+        "email": "test@example.com",
+        "password": "ValidPass@123"
+      },
+      "expected_error": "Phone is mandatory"
+    },
+    "7_error_missing_password": {
+      "description": "Missing password field - should fail validation",
+      "status_code": 400,
+      "body": {
+        "username": "testuser",
+        "email": "test@example.com",
+        "phone": "9999999999"
+      },
+      "expected_error": "Password is mandatory"
+    },
+    "8_error_all_fields_missing": {
+      "description": "Empty JSON object - all fields missing",
+      "status_code": 400,
+      "body": {},
+      "expected_error": "Validation failed for multiple fields"
+    },
+    "9_error_invalid_email_format_1": {
+      "description": "Invalid email - missing @ symbol",
+      "status_code": 400,
+      "body": {
+        "username": "testuser",
+        "email": "testexample.com",
+        "phone": "9999999999",
+        "password": "ValidPass@123"
+      },
+      "expected_error": "Invalid email format"
+    },
+    "10_error_invalid_email_format_2": {
+      "description": "Invalid email - missing domain",
+      "status_code": 400,
+      "body": {
+        "username": "testuser",
+        "email": "test@",
+        "phone": "9999999999",
+        "password": "ValidPass@123"
+      },
+      "expected_error": "Invalid email format"
+    },
+    "11_error_invalid_email_format_3": {
+      "description": "Invalid email - missing local part",
+      "status_code": 400,
+      "body": {
+        "username": "testuser",
+        "email": "@example.com",
+        "phone": "9999999999",
+        "password": "ValidPass@123"
+      },
+      "expected_error": "Invalid email format"
+    },
+    "12_error_invalid_email_format_4": {
+      "description": "Invalid email - no TLD",
+      "status_code": 400,
+      "body": {
+        "username": "testuser",
+        "email": "test@example",
+        "phone": "9999999999",
+        "password": "ValidPass@123"
+      },
+      "expected_error": "Invalid email format"
+    },
+    "13_error_blank_username": {
+      "description": "Blank username (empty string)",
+      "status_code": 400,
+      "body": {
+        "username": "",
+        "email": "test@example.com",
+        "phone": "9999999999",
+        "password": "ValidPass@123"
+      },
+      "expected_error": "Username is mandatory"
+    },
+    "14_error_blank_email": {
+      "description": "Blank email (empty string)",
+      "status_code": 400,
+      "body": {
+        "username": "testuser",
+        "email": "",
+        "phone": "9999999999",
+        "password": "ValidPass@123"
+      },
+      "expected_error": "Email is mandatory"
+    },
+    "15_error_blank_phone": {
+      "description": "Blank phone (empty string)",
+      "status_code": 400,
+      "body": {
+        "username": "testuser",
+        "email": "test@example.com",
+        "phone": "",
+        "password": "ValidPass@123"
+      },
+      "expected_error": "Phone is mandatory"
+    },
+    "16_error_blank_password": {
+      "description": "Blank password (empty string)",
+      "status_code": 400,
+      "body": {
+        "username": "testuser",
+        "email": "test@example.com",
+        "phone": "9999999999",
+        "password": ""
+      },
+      "expected_error": "Password is mandatory"
+    },
+    "17_error_null_username": {
+      "description": "Null username",
+      "status_code": 400,
+      "body": {
+        "username": null,
+        "email": "test@example.com",
+        "phone": "9999999999",
+        "password": "ValidPass@123"
+      },
+      "expected_error": "Username is mandatory"
+    },
+    "18_error_null_email": {
+      "description": "Null email",
+      "status_code": 400,
+      "body": {
+        "username": "testuser",
+        "email": null,
+        "phone": "9999999999",
+        "password": "ValidPass@123"
+      },
+      "expected_error": "Email is mandatory"
+    },
+    "19_error_null_phone": {
+      "description": "Null phone",
+      "status_code": 400,
+      "body": {
+        "username": "testuser",
+        "email": "test@example.com",
+        "phone": null,
+        "password": "ValidPass@123"
+      },
+      "expected_error": "Phone is mandatory"
+    },
+    "20_error_null_password": {
+      "description": "Null password",
+      "status_code": 400,
+      "body": {
+        "username": "testuser",
+        "email": "test@example.com",
+        "phone": "9999999999",
+        "password": null
+      },
+      "expected_error": "Password is mandatory"
+    },
+    "21_error_duplicate_email": {
+      "description": "Duplicate email - user already exists (after first registration)",
+      "status_code": 409,
+      "body": {
+        "username": "another_user",
+        "email": "john@example.com",
+        "phone": "1111111111",
+        "password": "NewPass@456"
+      },
+      "expected_error": "Email already exists",
+      "prerequisite": "Scenario 1 must be registered first"
+    },
+    "22_error_duplicate_username": {
+      "description": "Duplicate username - user already exists (after first registration)",
+      "status_code": 409,
+      "body": {
+        "username": "john_doe",
+        "email": "newemail@example.com",
+        "phone": "2222222222",
+        "password": "AnotherPass@789"
+      },
+      "expected_error": "Username already exists",
+      "prerequisite": "Scenario 1 must be registered first"
+    },
+    "23_edge_case_long_username": {
+      "description": "Very long username (255 characters)",
+      "status_code": 201,
+      "body": {
+        "username": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "email": "longuser@example.com",
+        "phone": "3333333333",
+        "password": "LongUser@123"
+      }
+    },
+    "24_edge_case_long_email": {
+      "description": "Long email address",
+      "status_code": 201,
+      "body": {
+        "username": "longemail_user",
+        "email": "verylongemailaddresswithlotofcharacters@subdomain.example.com",
+        "phone": "4444444444",
+        "password": "LongEmail@456"
+      }
+    },
+    "25_edge_case_special_chars_username": {
+      "description": "Username with special characters and numbers",
+      "status_code": 201,
+      "body": {
+        "username": "user_name-123",
+        "email": "special@example.com",
+        "phone": "5555555555",
+        "password": "Special@789"
+      }
+    },
+    "26_edge_case_international_phone": {
+      "description": "International phone format",
+      "status_code": 201,
+      "body": {
+        "username": "intl_user",
+        "email": "intl@example.com",
+        "phone": "+91-9876-543-210",
+        "password": "Intl@Phone123"
+      }
+    },
+    "27_edge_case_spaces_in_username": {
+      "description": "Username with spaces",
+      "status_code": 201,
+      "body": {
+        "username": "user name with spaces",
+        "email": "spaces@example.com",
+        "phone": "6666666666",
+        "password": "Spaces@456"
+      }
+    },
+    "28_edge_case_leading_trailing_spaces": {
+      "description": "Email with leading/trailing spaces",
+      "status_code": 400,
+      "body": {
+        "username": "spacetest",
+        "email": "  spaces@example.com  ",
+        "phone": "7777777777",
+        "password": "SpaceTest@123"
+      },
+      "note": "Behavior depends on Spring's @Email validator - may trim or reject"
+    },
+    "29_malformed_json": {
+      "description": "Malformed JSON - missing closing brace",
+      "status_code": 400,
+      "body": "{\"username\": \"test\", \"email\": \"test@example.com\"",
+      "expected_error": "JSON parse error"
+    },
+    "30_extra_fields": {
+      "description": "Extra fields not in DTO (should be ignored)",
+      "status_code": 201,
+      "body": {
+        "username": "extrafield",
+        "email": "extra@example.com",
+        "phone": "8888888888",
+        "password": "Extra@Fields123",
+        "age": 25,
+        "country": "USA",
+        "extra_field": "should_be_ignored"
+      },
+      "note": "Spring should ignore unknown fields by default"
+    },
+    "31_numeric_password": {
+      "description": "Valid registration with numeric password",
+      "status_code": 201,
+      "body": {
+        "username": "numpass_user",
+        "email": "numpass@example.com",
+        "phone": "9999999999",
+        "password": "Numeric@2024"
+      }
+    },
+    "32_special_chars_password": {
+      "description": "Password with multiple special characters",
+      "status_code": 201,
+      "body": {
+        "username": "specialpass",
+        "email": "special@example.com",
+        "phone": "1010101010",
+        "password": "P@ss!w0rd#$%"
+      }
+    },
+    "33_case_sensitivity_email_1": {
+      "description": "Email with uppercase letters",
+      "status_code": 201,
+      "body": {
+        "username": "uppercase_user",
+        "email": "Test@EXAMPLE.COM",
+        "phone": "1111111111",
+        "password": "UpperCase@123"
+      },
+      "note": "Email addresses are case-insensitive, so this might conflict with lowercase variant"
+    },
+    "34_email_with_subdomain": {
+      "description": "Email with subdomain",
+      "status_code": 201,
+      "body": {
+        "username": "subdomain_user",
+        "email": "user@mail.example.co.uk",
+        "phone": "1212121212",
+        "password": "Subdomain@456"
+      }
+    },
+    "35_numeric_phone_only": {
+      "description": "Phone with only numbers",
+      "status_code": 201,
+      "body": {
+        "username": "numphone",
+        "email": "numphone@example.com",
+        "phone": "1313131313",
+        "password": "NumPhone@789"
+      }
+    }
+  },
+  "test_execution_order": [
+    "1_success_valid_data (Register first user)",
+    "2_success_different_valid_data",
+    "3_success_numeric_username",
+    "21_error_duplicate_email (Test against user from scenario 1)",
+    "22_error_duplicate_username (Test against user from scenario 1)",
+    "4_error_missing_username",
+    "5_error_missing_email",
+    "6_error_missing_phone",
+    "7_error_missing_password",
+    "8_error_all_fields_missing",
+    "9_error_invalid_email_format_1",
+    "10_error_invalid_email_format_2",
+    "11_error_invalid_email_format_3",
+    "12_error_invalid_email_format_4",
+    "13_error_blank_username",
+    "14_error_blank_email",
+    "15_error_blank_phone",
+    "16_error_blank_password",
+    "17_error_null_username",
+    "18_error_null_email",
+    "19_error_null_phone",
+    "20_error_null_password",
+    "23_edge_case_long_username",
+    "24_edge_case_long_email",
+    "25_edge_case_special_chars_username",
+    "26_edge_case_international_phone",
+    "27_edge_case_spaces_in_username",
+    "28_edge_case_leading_trailing_spaces",
+    "29_malformed_json",
+    "30_extra_fields",
+    "31_numeric_password",
+    "32_special_chars_password",
+    "33_case_sensitivity_email_1",
+    "34_email_with_subdomain",
+    "35_numeric_phone_only"
+  ],
+  "curl_examples": {
+    "success_example": "curl -X POST http://localhost:8080/api/user/register -H 'Content-Type: application/json' -d '{\"username\":\"john_doe\",\"email\":\"john@example.com\",\"phone\":\"9876543210\",\"password\":\"SecurePass@123\"}'",
+    "missing_field_example": "curl -X POST http://localhost:8080/api/user/register -H 'Content-Type: application/json' -d '{\"username\":\"testuser\",\"email\":\"test@example.com\",\"phone\":\"9999999999\"}'",
+    "invalid_email_example": "curl -X POST http://localhost:8080/api/user/register -H 'Content-Type: application/json' -d '{\"username\":\"testuser\",\"email\":\"invalid-email\",\"phone\":\"9999999999\",\"password\":\"ValidPass@123\"}'"
+  },
+  "postman_collection_note": "Import these test cases into Postman for automated testing. Create environment variables for base_url and run tests sequentially to catch duplicate key violations.",
+  "notes": {
+    "1": "Status codes are based on REST standards and Spring Boot defaults",
+    "2": "Email validation uses Jakarta @Email annotation - strict RFC format",
+    "3": "Duplicate checks happen on email and username (database constraints)",
+    "4": "All @NotBlank fields reject null and empty strings",
+    "5": "Unknown/extra JSON fields are ignored by default in Spring",
+    "6": "Phone number format validation depends on your database/entity constraints",
+    "7": "Email addresses are typically case-insensitive in databases",
+    "8": "Test scenarios 21-22 require cleaning database or using different emails/usernames"
+  }
+}
