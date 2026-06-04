@@ -22,11 +22,18 @@ public class EmailService {
                     "If you did not request this, ignore this email."
             );
             mailSender.send(message);
-            log.info("OTP send to Email");
+            log.info("OTP sent to Email successfully.");
         }
         catch (Exception e){
             log.error("Failed to send OTP email to {}: {}", email, e.getMessage());
-            throw new RuntimeException("Failed to send OTP email. Try again.");
+            log.warn("\n========================================================\n" +
+                    "[PORTFOLIO DEMO MODE] SMTP port is blocked (common on Render Free Tier).\n" +
+                    "To complete your registration, retrieve the OTP directly here:\n" +
+                    ">>> EMAIL: {}\n" +
+                    ">>> YOUR OTP IS: {}\n" +
+                    "========================================================\n", email, otp);
+            // We do not throw an exception here so that the user registration 
+            // can still proceed to the OTP verification screen in the demo!
         }
     }
 }
