@@ -23,11 +23,15 @@ public class RateLimitConfig {
     @Value("${spring.data.redis.password:}")
     private String redisPassword;
 
+    @Value("${spring.data.redis.ssl:false}")
+    private boolean redisSsl;
+
     @Bean
     public RedisClient redisClient(){
+        String scheme = redisSsl ? "rediss://" : "redis://";
         String redisUri = (redisPassword == null || redisPassword.isEmpty()) 
-                ? "redis://" + redisHost + ":" + redisPort 
-                : "redis://:" + redisPassword + "@" + redisHost + ":" + redisPort;
+                ? scheme + redisHost + ":" + redisPort 
+                : scheme + ":" + redisPassword + "@" + redisHost + ":" + redisPort;
         return RedisClient.create(redisUri);
     }
 
@@ -44,7 +48,12 @@ public class RateLimitConfig {
         if (redisPassword != null && !redisPassword.isEmpty()) {
             config.setPassword(redisPassword);
         }
-        return new LettuceConnectionFactory(config);
+        org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration.LettuceClientConfigurationBuilder builder = 
+                org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration.builder();
+        if (redisSsl) {
+            builder.useSsl();
+        }
+        return new LettuceConnectionFactory(config, builder.build());
     }
     @Bean
     public RedisTemplate<String, String> redisTemplate(
