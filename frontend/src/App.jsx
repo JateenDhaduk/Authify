@@ -7,7 +7,7 @@ import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import Dashboard from './components/Dashboard';
 
-const API_BASE_URL = 'http://localhost:8080';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 function App() {
   const [token, setToken] = useState(() => localStorage.getItem('authify_token') || '');
