@@ -23,7 +23,7 @@ public class RateLimitConfig {
     @Value("${spring.data.redis.password:}")
     private String redisPassword;
 
-    @Value("${spring.data.redis.ssl:false}")
+    @Value("${app.redis.ssl:false}")
     private boolean redisSsl;
 
     @Bean
